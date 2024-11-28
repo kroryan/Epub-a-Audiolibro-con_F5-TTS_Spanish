@@ -19,6 +19,12 @@ Turn your eBooks into audiobooks using the F5-TTS text-to-speech model. This app
 
 CUDA GPU Recomended 
 
+If you donwnload the repository into a folder:
+Install Docker
+Double click Build.bat, wait for it to finish
+Double click Run.bat to launch
+
+
 ### Docker
 
 Run the following single command in Command Prompt to build and start the application:
