@@ -28,7 +28,6 @@ Run the following single command in Command Prompt to build and start the applic
 ```bash
 docker build -t ebook_to_audiobook:latest https://github.com/jondana/eBook_to_Audiobook_with_F5-TTS.git && docker run -d -p 7860:7860 --name ebook_to_audiobook_container ebook_to_audiobook:latest && docker logs -f ebook_to_audiobook_container
 
-
 ```
 
 If you donwnload the repository into a folder:
