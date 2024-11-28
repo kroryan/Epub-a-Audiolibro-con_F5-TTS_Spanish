@@ -19,16 +19,19 @@ Turn your eBooks into audiobooks using the F5-TTS text-to-speech model. This app
 
 CUDA GPU Recomended 
 
-If you donwnload the repository into a folder:
-- Install Docker
-- Double click Build.bat, wait for it to finish
-- Double click Run.bat to launch
-
-
 ### Docker
 
 Run the following single command in Command Prompt to build and start the application, once running, open it by going to http://localhost:7860/
 
 ```bash
 docker build -t ebook_to_audiobook:latest https://github.com/jondana/eBook_to_Audiobook_with_F5-TTS.git && docker run -d -p 7860:7860 ebook_to_audiobook:latest
+```
+
+If you donwnload the repository into a folder:
+- Install Docker
+- Double click Build.bat, wait for it to finish
+- Double click Run.bat to launch
+
+
+
 
