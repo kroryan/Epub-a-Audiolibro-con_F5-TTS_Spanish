@@ -30,5 +30,5 @@ Double click Run.bat to launch
 Run the following single command in Command Prompt to build and start the application:
 
 ```bash
-docker build -t ebook_to_audiobook_with_f5-tts:latest https://github.com/jondana/eBook_to_Audiobook_with_F5-TTS.git && \
-docker run --rm -it -p 8080:8080 ebook_to_audiobook_with_f5-tts:latest
+docker build -t ebook_to_audiobook:latest https://github.com/jondana/eBook_to_Audiobook_with_F5-TTS.git && docker run -d -p 7860:7860 ebook_to_audiobook:latest
+
