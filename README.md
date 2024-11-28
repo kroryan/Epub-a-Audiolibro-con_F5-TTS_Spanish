@@ -42,3 +42,7 @@ If you donwnload the repository into a folder:
 ## License:
 - GPL-3.0
 
+## Acknowledgments
+
+- This project uses code adapted from [fakerybakery](https://github.com/fakerybakery)'s Hugging Face space [E2-F5-TTS](https://huggingface.co/spaces/mrfakename/E2-F5-TTS) and [DrewThomasson](https://github.com/DrewThomasson)'s Hugging Face space [ebook2audiobook](https://huggingface.co/spaces/drewThomasson/ebook2audiobook). Thanks for your amazing work!
+
