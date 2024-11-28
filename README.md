@@ -27,7 +27,7 @@ Double click Run.bat to launch
 
 ### Docker
 
-Run the following single command in Command Prompt to build and start the application:
+Run the following single command in Command Prompt to build and start the application, once running, open it by going to http://localhost:7860/:
 
 ```bash
 docker build -t ebook_to_audiobook:latest https://github.com/jondana/eBook_to_Audiobook_with_F5-TTS.git && docker run -d -p 7860:7860 ebook_to_audiobook:latest
