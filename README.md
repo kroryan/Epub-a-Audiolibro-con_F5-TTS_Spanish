@@ -15,7 +15,7 @@ Turn your eBooks into audiobooks using the F5-TTS text-to-speech model. This app
   - Adjust speech speed.
   - Customize cross-fade duration between audio chunks.
 - **Metadata Handling**: Extracts and embeds eBook metadata and cover images into the audiobook files.
-- **Output Formats**: Generates audiobooks in `.mp3` and `.m4b` formats. (Previously `.m4b` format caused play/pause issues in some audiobook players.)
+- **Output Formats**: Generates audiobooks in `.mp3` format. (Previously `.m4b` format caused play/pause issues in some audiobook players.)
 - **User-Friendly Interface**: Built with Gradio for an interactive web UI.
 
 ## Installation
