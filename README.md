@@ -12,19 +12,17 @@ Turn your eBooks into audiobooks using the F5-TTS text-to-speech model. This app
   - Adjust speech speed.
   - Customize cross-fade duration between audio chunks.
 - **Metadata Handling**: Extracts and embeds eBook metadata and cover images into the audiobook files.
-- **Output Formats**: Generates audiobooks in `.mp3` format `.m4b`. was causing play/pause issues in my audiobook player
+- **Output Formats**: Generates audiobooks in `.mp3` and `.m4b` formats. (Previously `.m4b` format caused play/pause issues in some audiobook players.)
 - **User-Friendly Interface**: Built with Gradio for an interactive web UI.
 
 ## Installation
 
-### Prerequisites
+CUDA GPU Recomended 
 
-- Python 3.7 or higher
-- [Calibre](https://calibre-ebook.com/download) (for eBook conversion and metadata extraction)
-- [FFmpeg](https://ffmpeg.org/download.html) (for audio processing)
+### Docker
 
-### Clone the Repository
+Run the following single command in Command Prompt to build and start the application:
 
 ```bash
-git clone https://github.com/jdana/ebook-to-audiobook-f5tts.git
-cd ebook-to-audiobook-f5tts
+docker build -t ebook_to_audiobook_with_f5-tts:latest https://github.com/jondana/eBook_to_Audiobook_with_F5-TTS.git && \
+docker run --rm -it -p 8080:8080 ebook_to_audiobook_with_f5-tts:latest
