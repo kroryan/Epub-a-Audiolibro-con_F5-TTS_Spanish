@@ -5,7 +5,7 @@
 
 Turn your eBooks into audiobooks using the F5-TTS text-to-speech model. This application allows you to upload an eBook file and a reference voice sample to generate a personalized audiobook. The app supports various eBook formats and provides advanced settings to customize the output.
 
-HuggingFace Demo (extremely slow on free CPU tier, would reccomend running locally, see below): https://huggingface.co/spaces/jdana/eBook_to_Audiobook_with_F5-TTS
+HuggingFace Demo (extremely slow on free CPU tier, would reccomend running locally with Docker, see below): https://huggingface.co/spaces/jdana/eBook_to_Audiobook_with_F5-TTS
 
 ## Features
 
