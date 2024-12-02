@@ -26,9 +26,9 @@ CUDA GPU Recomended
 
 ## Docker
 
-- Install Docker
+1. Install Docker
 
-Run the following single command in Command Prompt to build and start the application, once running, view the UI by going to http://localhost:7860/
+2. Run the following single command in Command Prompt to build and start the application, once running, view the UI by going to http://localhost:7860/
 
 ```bash
 docker build -t ebook_to_audiobook:latest https://github.com/jondana/eBook_to_Audiobook_with_F5-TTS.git && docker run -d --gpus all -p 7860:7860 --name ebook_to_audiobook_container ebook_to_audiobook:latest && docker logs -f ebook_to_audiobook_container
@@ -37,8 +37,8 @@ docker build -t ebook_to_audiobook:latest https://github.com/jondana/eBook_to_Au
 
 If you donwnload the repository into a folder:
 
-- Double click Build.bat, wait for it to finish
-- Double click Run.bat to launch
+1. Double click Build.bat, wait for it to finish
+2. Double click Run.bat to launch
 
 
 ## License:
