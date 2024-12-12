@@ -1,4 +1,4 @@
-# eBook to Audiobook Converter with F5-TTS
+# Easy eBook to Audiobook Converter with F5-TTS
 
 ![image](https://github.com/user-attachments/assets/c2f134f7-7060-4cc5-8e59-177a3d681844)
 
