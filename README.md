@@ -82,13 +82,6 @@ Before you begin, ensure you have the following installed and configured on your
 * The container will stop, and because we used the `--rm` flag, it will also be automatically removed.
 
 
-
-If you donwnload the repository into a folder:
-
-1. Double click Build.bat, wait for it to finish
-2. Double click Run.bat to launch
-
-
 ## License:
 - GPL-3.0
 
