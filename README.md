@@ -10,6 +10,7 @@ HuggingFace Demo (extremely slow on free CPU tier, would recommend running local
 ## Features
 
 - **Voice Customization**: Upload a voice sample (<15 seconds) to mimic in the generated audiobook.
+- Requires 5GB of Vram
 - **Multiple eBook Formats**: Supports `.epub`, `.mobi`, `.pdf`, `.txt`, and `.html` files.
 - **Batch Processing**: Upload multiple eBooks for batch conversion.
 - **Advanced Settings**:
