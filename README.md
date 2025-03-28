@@ -21,57 +21,45 @@ HuggingFace Demo (extremely slow on free CPU tier, would recommend running local
 - **Output Formats**: Generates audiobooks with book covers embedded in `.mp3` format. (`.m4b` format caused play/pause issues in some audiobook players.)
 - **User-Friendly Interface**: Built with Gradio for an interactive web UI.
 
-## Installation
-
 # How to Run the Offline F5 TTS Docker Application
 
-These instructions will guide you through loading and running the pre-packaged offline Text-to-Speech (TTS) Docker image. This image includes all necessary models, so it does not require an internet connection after setup.
+These instructions will guide you through running the pre-packaged offline Text-to-Speech (TTS) Docker image using a single command. This image includes all necessary models, so it does not require an internet connection *after* the initial download step.
 
 ## Prerequisites
 
 Before you begin, ensure you have the following installed and configured on your system:
 
 1.  **Docker Desktop:** Install Docker for your operating system (Windows, macOS, or Linux). You can find it here: [https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)
-2.  **NVIDIA GPU Drivers:** You need an NVIDIA graphics card (GPU) and the appropriate drivers installed. Check the NVIDIA website for the latest drivers for your specific GPU.
+2.  **NVIDIA GPU Drivers:** You need a compatible NVIDIA graphics card (GPU). Install the latest drivers from the NVIDIA website.
 3.  **NVIDIA Container Toolkit:** This allows Docker to access your NVIDIA GPU. Installation instructions depend on your OS (primarily Linux, or WSL2 on Windows). Follow the official guide: [https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
+4.  **Sufficient VRAM:** Ensure your NVIDIA GPU has at least **5 GB of Video RAM (VRAM)** available for the application to run smoothly.
+5.  **`curl` Command-Line Tool:** This tool is used within the single command to download the image. It's pre-installed on most Linux and macOS systems, and usually included in modern Windows 10/11. You can verify it's available by opening your terminal/command prompt and typing `curl --version`.
 
-*(Note: Running this application requires a compatible NVIDIA GPU properly configured for Docker.)*
+*(Note: Running this application requires a compatible NVIDIA GPU meeting the VRAM requirement, properly configured for Docker with the NVIDIA Container Toolkit.)*
 
-# Instructions
+## Instructions
 
-1.  **Download the Offline Docker Image:**
-    * Download the required Docker image archive (`.tar` file) from Hugging Face Hub:
-        **[Download f5tts_offline_ebook_to_audiobook_image.tar (5.8 GB)](https://huggingface.co/jdana/f5tts_offline_ebook_to_audiobook_Docker_image/resolve/main/f5tts_offline_ebook_to_audiobook_image.tar)**
-    * Save this file to a known location on your computer.
+1.  **Open a Terminal or Command Prompt:**
+    * **Windows:** Open Command Prompt, PowerShell, or the terminal in Windows Subsystem for Linux (WSL).
+    * **macOS:** Open the Terminal application (found in Applications > Utilities).
+    * **Linux:** Open your preferred terminal application.
 
-2.  **Open a Terminal or Command Prompt:**
-    * (Same instructions as before...)
-
-3.  **Navigate to the File Location (Optional but Recommended):**
-    * (Same instructions as before...)
-
-4.  **Load the Docker Image:**
-    * Run the `docker load` command:
+2.  **Download, Load, and Run (Single Command):**
+    * The single command below will perform all the necessary steps: download the Docker image (~5.8 GB) from Hugging Face, load it directly into your Docker engine, and then start the application container.
+    * Copy the entire command, paste it into your terminal, and press Enter.
+    * **Command:**
         ```bash
-        docker load -i f5tts_offline_ebook_to_audiobook_image.tar
+        curl -L "[https://huggingface.co/jdana/f5tts_offline_ebook_to_audiobook_Docker_image/resolve/main/f5tts_offline_ebook_to_audiobook_image.tar](https://huggingface.co/jdana/f5tts_offline_ebook_to_audiobook_Docker_image/resolve/main/f5tts_offline_ebook_to_audiobook_image.tar)" | docker load && docker run --rm -it --gpus all -p 7860:7860 f5tts:offline
         ```
-
-5.  **Run the Application Container:**
-    * Run the `docker run` command using the loaded image tag (`f5tts:offline`):
-        ```bash
-        docker run --rm -it --gpus all -p 7860:7860 f5tts:offline
-        ```
-    * **Explanation of options:**
-        * `--rm`: Automatically removes the container when you stop it (keeps things clean).
-        * `-it`: Runs the container interactively so you can see its logs in the terminal.
-        * `--gpus all`: Gives the container access to all your available NVIDIA GPUs.
-        * `-p 7860:7860`: Maps port `7860` from your computer to port `7860` inside the container, allowing you to access the web UI.
-        * `f5tts:offline`: The name of the Docker image to run.
-    * You should see log messages in your terminal, indicating the application is starting. Look for a line similar to `* Running on local URL: http://0.0.0.0:7860`.
+    * **How it works:**
+        * `curl -L "URL"` downloads the file as a stream.
+        * `| docker load` pipes (sends) that stream directly into Docker, which loads the image layers.
+        * `&& docker run ...` runs the container using the `f5tts:offline` image *only if* the download and load steps were successful.
+    * **Be Patient:** This command downloads a large file (5.8 GB), which will take time based on your internet speed. The subsequent `docker load` process also takes time and might not show detailed progress in the terminal. Wait for the command to complete or for application logs to start appearing.
 
 ## Accessing the Application
 
-* Once the container is running and you see the confirmation message in the terminal, open your web browser (like Chrome, Firefox, Edge).
+* Once the container is running (you should eventually see log messages in the terminal, including something like `* Running on local URL: http://0.0.0.0:7860`), open your web browser.
 * Navigate to the following address:
     **`http://localhost:7860`**
 * You should now see the web interface for the TTS application.
@@ -80,7 +68,7 @@ Before you begin, ensure you have the following installed and configured on your
 
 * To stop the application container, go back to the terminal window where it is running.
 * Press `Ctrl + C` (hold the Control key and press C).
-* The container will stop, and because we used the `--rm` flag, it will also be automatically removed.
+* The container will stop, and because the run command included the `--rm` flag, it will also be automatically removed, keeping your system clean.
 
 
 ## License:
