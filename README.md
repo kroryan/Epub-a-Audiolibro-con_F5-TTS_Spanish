@@ -80,6 +80,9 @@ Before you begin, ensure you have the following installed and configured on your
 * To stop the application container, go back to the terminal window where it is running.
 * Press `Ctrl + C` (hold the Control key and press C).
 * The container will stop, and because we used the `--rm` flag, it will also be automatically removed.
+
+
+
 If you donwnload the repository into a folder:
 
 1. Double click Build.bat, wait for it to finish
