@@ -36,38 +36,27 @@ Before you begin, ensure you have the following installed and configured on your
 
 *(Note: Running this application requires a compatible NVIDIA GPU properly configured for Docker.)*
 
-## Instructions
+# Instructions
 
-1.  **Download the Docker Image File:**
-    * Make sure you have the Docker image file named `f5tts_offline_ebook_to_audiobook_image.tar`.
-    * Save or move this file to a location you can easily access from your command line (e.g., your Desktop or a dedicated project folder).
+1.  **Download the Offline Docker Image:**
+    * Download the required Docker image archive (`.tar` file) from Hugging Face Hub:
+        **[Download f5tts_offline_ebook_to_audiobook_image.tar (5.8 GB)](https://huggingface.co/jdana/f5tts_offline_ebook_to_audiobook_Docker_image/resolve/main/f5tts_offline_ebook_to_audiobook_image.tar)**
+    * Save this file to a known location on your computer.
 
 2.  **Open a Terminal or Command Prompt:**
-    * **Windows:** Open Command Prompt, PowerShell, or the terminal in Windows Subsystem for Linux (WSL).
-    * **macOS:** Open the Terminal application (found in Applications > Utilities).
-    * **Linux:** Open your preferred terminal application.
+    * (Same instructions as before...)
 
 3.  **Navigate to the File Location (Optional but Recommended):**
-    * Use the `cd` (change directory) command in your terminal to navigate to the folder where you saved the `.tar` file. For example, if you saved it on your Desktop:
-        ```bash
-        # Example for Windows Command Prompt/PowerShell (adjust path as needed)
-        cd C:\Users\YourUsername\Desktop
-
-        # Example for macOS/Linux (adjust path as needed)
-        cd ~/Desktop
-        ```
+    * (Same instructions as before...)
 
 4.  **Load the Docker Image:**
-    * Run the following command. This unpacks the `.tar` file and loads the Docker image (`f5tts:offline`) into your local Docker registry. This might take a few moments.
-    * **Command:**
+    * Run the `docker load` command:
         ```bash
         docker load -i f5tts_offline_ebook_to_audiobook_image.tar
         ```
-    * You should see output indicating the layers are being loaded and finally confirming the loaded image tag (`Loaded image: f5tts:offline`).
 
 5.  **Run the Application Container:**
-    * Now, run the container from the image you just loaded. This command starts the TTS application, makes your GPU(s) available to it, and exposes the web interface on port `7860`.
-    * **Command:**
+    * Run the `docker run` command using the loaded image tag (`f5tts:offline`):
         ```bash
         docker run --rm -it --gpus all -p 7860:7860 f5tts:offline
         ```
