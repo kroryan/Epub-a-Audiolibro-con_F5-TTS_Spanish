@@ -49,7 +49,7 @@ Before you begin, ensure you have the following installed and configured on your
     * Copy the entire command, paste it into your terminal, and press Enter.
     * **Command:**
         ```bash
-        curl -L "https://huggingface.co/jdana/f5tts_offline_ebook_to_audiobook_Docker_image/resolve/main/f5tts-app-preloaded_2025-03-28.tar" -o f5tts-app-preloaded_2025-03-28.tar && docker load < f5tts-app-preloaded_2025-03-28.tar && docker run --rm -it --gpus all -p 7860:7860 f5tts:offline && del f5tts-app-preloaded_2025-03-28.tar
+        curl -L "https://huggingface.co/jdana/f5tts_offline_ebook_to_audiobook_Docker_image/resolve/main/f5tts-app-preloaded_2025-03-28.tar" -o f5tts-app-preloaded_2025-03-28.tar && docker load < f5tts-app-preloaded_2025-03-28.tar && docker run --rm -it --gpus all -p 7860:7860 f5tts:latest && del f5tts-app-preloaded_2025-03-28.tar
         
         ```
         *(Note: On Linux/macOS, change the final `del` command to `rm`)*
