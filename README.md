@@ -49,7 +49,7 @@ Before you begin, ensure you have the following installed and configured on your
     * Copy the entire command, paste it into your terminal, and press Enter.
     * **Command:**
         ```bash
-        curl -L "[https://huggingface.co/jdana/f5tts_offline_ebook_to_audiobook_Docker_image/resolve/main/f5tts_offline_ebook_to_audiobook_image.tar](https://huggingface.co/jdana/f5tts_offline_ebook_to_audiobook_Docker_image/resolve/main/f5tts_offline_ebook_to_audiobook_image.tar)" -o f5tts_offline_ebook_to_audiobook_image.tar && docker load < f5tts_offline_ebook_to_audiobook_image.tar && docker run --rm -it --gpus all -p 7860:7860 f5tts:latest && del f5tts_offline_ebook_to_audiobook_image.tar
+        curl -L "https://huggingface.co/jdana/f5tts_offline_ebook_to_audiobook_Docker_image/resolve/main/f5tts_offline_ebook_to_audiobook_image.tar" -o f5tts_offline_ebook_to_audiobook_image.tar && docker load < f5tts_offline_ebook_to_audiobook_image.tar && docker run --rm -it --gpus all -p 7860:7860 f5tts:latest && del f5tts_offline_ebook_to_audiobook_image.tar
         ```
         *(Note: On Linux/macOS, change the final `del` command to `rm`)*
     * **How it works:**
