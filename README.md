@@ -49,7 +49,7 @@ Before you begin, ensure you have the following installed and configured on your
     * Copy the entire command, paste it into your terminal, and press Enter.
     * **Command:**
         ```bash
-        curl -L "[https://huggingface.co/jdana/f5tts_offline_ebook_to_audiobook_Docker_image/resolve/main/f5tts_offline_ebook_to_audiobook_image.tar](https://huggingface.co/jdana/f5tts_offline_ebook_to_audiobook_Docker_image/resolve/main/f5tts_offline_ebook_to_audiobook_image.tar)" | docker load && docker run --rm -it --gpus all -p 7860:7860 f5tts:offline
+        curl -L "[https://huggingface.co/jdana/f5tts_offline_ebook_to_audiobook_Docker_image/resolve/main/f5tts-app-preloaded_2025-03-28.tar](https://huggingface.co/jdana/f5tts_offline_ebook_to_audiobook_Docker_image/resolve/main/f5tts_offline_ebook_to_audiobook_image.tar)" | docker load && docker run --rm -it --gpus all -p 7860:7860 f5tts:offline
         ```
     * **How it works:**
         * `curl -L "URL"` downloads the file as a stream.
