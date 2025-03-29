@@ -2,7 +2,6 @@
 
 ![image](https://github.com/user-attachments/assets/c2f134f7-7060-4cc5-8e59-177a3d681844)
 
-
 Turn your eBooks into audiobooks using the F5-TTS text-to-speech model. This application allows you to upload an eBook file and a reference voice sample to generate a personalized audiobook. The app supports various eBook formats and provides advanced settings to customize the output.
 
 HuggingFace Demo (extremely slow on free CPU tier, would recommend running locally with Docker, see below): https://huggingface.co/spaces/jdana/eBook_to_Audiobook_with_F5-TTS
@@ -45,17 +44,23 @@ Before you begin, ensure you have the following installed and configured on your
     * **Linux:** Open your preferred terminal application.
 
 2.  **Download, Load, and Run (Single Command):**
-    * The single command below will perform all the necessary steps: download the Docker image (~5.8 GB) from Hugging Face, load it directly into your Docker engine, and then start the application container.
+    * The single command below performs all the necessary steps sequentially: downloads the Docker image (~5.8 GB) from Hugging Face saving it temporarily, loads it into your Docker engine, starts the application container, and finally cleans up the downloaded file *after* you stop the container.
+    * This method is more robust against download interruptions than piping the download directly.
     * Copy the entire command, paste it into your terminal, and press Enter.
     * **Command:**
         ```bash
-        curl -L "https://huggingface.co/jdana/f5tts_offline_ebook_to_audiobook_Docker_image/resolve/main/f5tts_offline_ebook_to_audiobook_image.tar" | docker load && docker run --rm -it --gpus all -p 7860:7860 f5tts:latest
+        curl -L "[https://huggingface.co/jdana/f5tts_offline_ebook_to_audiobook_Docker_image/resolve/main/f5tts_offline_ebook_to_audiobook_image.tar](https://huggingface.co/jdana/f5tts_offline_ebook_to_audiobook_Docker_image/resolve/main/f5tts_offline_ebook_to_audiobook_image.tar)" -o f5tts_offline_ebook_to_audiobook_image.tar && docker load < f5tts_offline_ebook_to_audiobook_image.tar && docker run --rm -it --gpus all -p 7860:7860 f5tts:latest && del f5tts_offline_ebook_to_audiobook_image.tar
         ```
+        *(Note: On Linux/macOS, change the final `del` command to `rm`)*
     * **How it works:**
-        * `curl -L "URL"` downloads the file as a stream.
-        * `| docker load` pipes (sends) that stream directly into Docker, which loads the image layers.
-        * `&& docker run ...` runs the container using the `f5tts:offline` image *only if* the download and load steps were successful.
-    * **Be Patient:** This command downloads a large file (5.8 GB), which will take time based on your internet speed. The subsequent `docker load` process also takes time and might not show detailed progress in the terminal. Wait for the command to complete or for application logs to start appearing.
+        * `curl -L "URL" -o filename.tar`: Downloads the file completely and saves it locally. `-L` follows redirects, `-o` specifies the output filename.
+        * `&&`: Ensures the next command runs *only if* the previous one was successful.
+        * `docker load < filename.tar`: Loads the image into Docker from the downloaded file.
+        * `&&`: Ensures the `docker run` command starts *only if* the load was successful.
+        * `docker run ...`: Runs the container using the `f5tts:latest` image. The `--rm` flag ensures the container is removed when stopped. `-it` runs it interactively. `--gpus all` provides GPU access. `-p 7860:7860` maps the port.
+        * `&&`: Ensures the cleanup command runs *only if* `docker run` exits successfully (i.e., after you stop the container, typically with `Ctrl+C`).
+        * `del filename.tar` (or `rm filename.tar` on Linux/macOS): Deletes the downloaded `.tar` file to save space.
+    * **Be Patient:** This command still downloads a large file (5.8 GB), which will take time based on your internet speed. You will see download progress from `curl`. The subsequent `docker load` process also takes time. Wait for the command to complete the download and load steps before the application logs start appearing.
 
 ## Accessing the Application
 
@@ -68,13 +73,12 @@ Before you begin, ensure you have the following installed and configured on your
 
 * To stop the application container, go back to the terminal window where it is running.
 * Press `Ctrl + C` (hold the Control key and press C).
-* The container will stop, and because the run command included the `--rm` flag, it will also be automatically removed, keeping your system clean.
-
+* The container will stop. Because the run command included the `--rm` flag, it will also be automatically removed. The final part of the single command (`del` or `rm`) should then execute to clean up the downloaded `.tar` file.
 
 ## License:
-- GPL-3.0
+
+-   GPL-3.0
 
 ## Acknowledgments
 
-- This project uses code adapted from [fakerybakery](https://github.com/fakerybakery)'s Hugging Face space [E2-F5-TTS](https://huggingface.co/spaces/mrfakename/E2-F5-TTS) and [DrewThomasson](https://github.com/DrewThomasson)'s Hugging Face space [ebook2audiobook](https://huggingface.co/spaces/drewThomasson/ebook2audiobook). Thanks for your amazing work!
-
+-   This project uses code adapted from [fakerybakery](https://github.com/fakerybakery)'s Hugging Face space [E2-F5-TTS](https://huggingface.co/spaces/mrfakename/E2-F5-TTS) and [DrewThomasson](https://github.com/DrewThomasson)'s Hugging Face space [ebook2audiobook](https://huggingface.co/spaces/drewThomasson/ebook2audiobook). Thanks for your amazing work!
