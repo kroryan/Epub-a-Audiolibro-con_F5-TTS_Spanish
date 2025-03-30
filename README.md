@@ -8,6 +8,7 @@ Copy and paste this single command line into command prompt to get the app runni
 
 ```bash
 curl -L "https://huggingface.co/jdana/f5tts_offline_ebook_to_audiobook_Docker_image/resolve/main/f5tts-app-preloaded_2025-03-29.tar" -o f5tts-app-preloaded_2025-03-29.tar && docker load < f5tts-app-preloaded_2025-03-29.tar && docker run --rm -it --gpus all -p 7860:7860 f5tts:latest && del f5tts-app-preloaded_2025-03-29.tar
+
 ```
 
 ## Features
