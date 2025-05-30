@@ -5,7 +5,7 @@
 
 Turn your eBooks into audiobooks using the F5-TTS text-to-speech model. This application allows you to upload an eBook file and a reference voice sample to generate a personalized audiobook. The app supports various eBook formats and provides advanced settings to customize the output.
 
-Copy and paste this single command line into command prompt to get the app running locally in Docker (Nvidia card accelerated):
+Copy and paste this single command line into command prompt to get the app running locally in Docker (Nvidia card accelerated)(11GB):
 
 ```bash
 curl -L "https://huggingface.co/jdana/f5tts_offline_ebook_to_audiobook_Docker_image/resolve/main/f5tts-app-preloaded_2025-05-29.tar" -o f5tts-app-preloaded_2025-03-29.tar && docker load < f5tts-app-preloaded_2025-03-29.tar && docker run --rm -it --gpus all -p 7860:7860 f5tts:latest && del f5tts-app-preloaded_2025-03-29.tar
