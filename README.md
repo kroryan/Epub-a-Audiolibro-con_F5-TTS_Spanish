@@ -53,7 +53,7 @@ Before you begin, ensure you have the following installed and configured on your
 2.  **Download, Load, and Run (Single Command):**
     * The single command below performs all the necessary steps sequentially: downloads the Docker image (~5.8 GB) from Hugging Face saving it temporarily, loads it into your Docker engine, starts the application container, and finally cleans up the downloaded file *after* you stop the container.
     * This method is more robust against download interruptions than piping the download directly.
-    * Copy the entire command, paste it into your terminal, and press Enter.
+    * Copy the entire command, paste it into your terminal.
     * **Command:**
         ```bash
         curl -L "https://huggingface.co/jdana/f5tts_offline_ebook_to_audiobook_Docker_image/resolve/main/f5tts-app-preloaded_2025-05-29.tar" -o f5tts-app-preloaded_2025-05-29.tar && docker load < f5tts-app-preloaded_2025-05-29.tar && docker tag 21fad7b5127e f5tts:latest && docker run --rm -it --gpus all -p 7860:7860 f5tts:latest && del f5tts-app-preloaded_2025-05-29.tar
@@ -68,7 +68,7 @@ Before you begin, ensure you have the following installed and configured on your
         * `docker run ...`: Runs the container using the `f5tts:latest` image. The `--rm` flag ensures the container is removed when stopped. `-it` runs it interactively. `--gpus all` provides GPU access. `-p 7860:7860` maps the port.
         * `&&`: Ensures the cleanup command runs *only if* `docker run` exits successfully (i.e., after you stop the container, typically with `Ctrl+C`).
         * `del filename.tar` (or `rm filename.tar` on Linux/macOS): Deletes the downloaded `.tar` file to save space.
-    * **Be Patient:** This command still downloads a large file (5.8 GB), which will take time based on your internet speed. You will see download progress from `curl`. The subsequent `docker load` process also takes time. Wait for the command to complete the download and load steps before the application logs start appearing.
+    * **Be Patient:** This command still downloads a large file (11 GB), which will take time based on your internet speed. You will see download progress from `curl`. The subsequent `docker load` process also takes time. Wait for the command to complete the download and load steps before the application logs start appearing.
 
 ## Accessing the Application
 
@@ -82,6 +82,71 @@ Before you begin, ensure you have the following installed and configured on your
 * To stop the application container, go back to the terminal window where it is running.
 * Press `Ctrl + C` (hold the Control key and press C).
 * The container will stop. Because the run command included the `--rm` flag, it will also be automatically removed. The final part of the single command (`del` or `rm`) should then execute to clean up the downloaded `.tar` file.
+
+# Running f5tts Locally with Docker
+
+These instructions guide you on how to download the f5tts Docker image once, load it into your local Docker repository, and then run it anytime without re-downloading.
+
+## Prerequisites
+
+*   **Docker Desktop** (or Docker Engine) installed and running on your system.
+*   **Command Prompt** (or PowerShell).
+*   (Optional but likely required for this image) **NVIDIA GPU drivers** and the **NVIDIA Container Toolkit** if you plan to use GPU acceleration (`--gpus all` flag).
+
+## Phase 1: One-Time Setup
+
+Do these steps only once, or when you want to update to a new version of the image downloaded as a `.tar` file.
+
+1.  **Open Command Prompt** (it's often a good idea to run it as Administrator for Docker operations, though not always strictly necessary).
+
+2.  **Navigate to a directory** where you want to temporarily store the downloaded image archive (e.g., `C:\DockerImages`):
+    ```cmd
+    cd C:\path\to\your\desired\folder
+    ```
+
+3.  **Download the Docker image archive:**
+    ```cmd
+    curl -L "https://huggingface.co/jdana/f5tts_offline_ebook_to_audiobook_Docker_image/resolve/main/f5tts-app-preloaded_2025-05-29.tar" -o f5tts-app-preloaded_2025-05-29.tar
+    ```
+    *   This will download the `f5tts-app-preloaded_2025-05-29.tar` file. Wait for the download to complete as it can be a large file.
+
+4.  **Load the image from the archive into Docker:**
+    ```cmd
+    docker load < f5tts-app-preloaded_2025-05-29.tar
+    ```
+    *   This command extracts and loads the image layers into Docker's local storage. It might take some time.
+    *   Upon completion, it usually outputs the ID of the loaded image, for example: `Loaded image ID: sha256:21fad7b5127e...`.
+
+5.  **Tag the loaded image with a friendly name:**
+    The image ID `21fad7b5127e` is the short ID for the image within this specific tarball.
+    ```cmd
+    docker tag 21fad7b5127e f5tts:latest
+    ```
+    *   This assigns the more memorable tag `f5tts:latest` to the image.
+    *   You can verify the image is tagged correctly by running `docker images` and looking for `f5tts` in the `REPOSITORY` column.
+
+6.  **(Optional) Delete the downloaded `.tar` file** to save disk space, as the image is now stored by Docker:
+    ```cmd
+    del f5tts-app-preloaded_2025-05-29.tar
+    ```
+
+## Phase 2: Running the Application Locally
+
+Do these steps every time you want to use the f5tts application.
+
+1.  **Open Command Prompt.**
+
+2.  **Run the Docker container** using the tag you created:
+    ```cmd
+    docker run --rm -it --gpus all -p 7860:7860 f5tts:latest
+    ```
+    *   `--rm`: Automatically removes the container when it exits.
+    *   `-it`: Runs in interactive mode and allocates a pseudo-TTY.
+    *   `--gpus all`: (Requires NVIDIA setup) Exposes all available NVIDIA GPUs to the container. If you don't have an NVIDIA GPU or the NVIDIA Container Toolkit, you might need to remove this flag, but the application's performance or functionality could be affected.
+    *   `-p 7860:7860`: Maps port 7860 on your host machine to port 7860 inside the container. This allows you to access the application via `http://localhost:7860` in your web browser.
+    *   `f5tts:latest`: Specifies the Docker image to run.
+
+Once the container starts, you should be able to access the f5tts web interface by navigating to `http://localhost:7860` in your browser. To stop the container, press `Ctrl+C` in the Command Prompt window where it's running.
 
 ## License:
 
