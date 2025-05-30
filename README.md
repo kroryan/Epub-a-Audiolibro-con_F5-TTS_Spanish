@@ -16,6 +16,7 @@ curl -L "https://huggingface.co/jdana/f5tts_offline_ebook_to_audiobook_Docker_im
 
 - **Voice Customization**: Upload a voice sample (<15 seconds) to mimic in the generated audiobook.
 - Requires 5GB of Vram
+- **Estimated Remaining Time**: See how much time is left to finish each ebook, calculated automatically
 - **Multiple eBook Formats**: Supports `.epub`, `.mobi`, `.pdf`, `.txt`, and `.html` files.
 - **Batch Processing**: Upload multiple eBooks for batch conversion.
 - **Advanced Settings**:
