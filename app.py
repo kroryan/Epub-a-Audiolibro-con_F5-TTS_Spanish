@@ -595,14 +595,14 @@ def create_gradio_app():
                 label="Speech Speed (Adjusting Can Cause Artifacts)",
                 minimum=0.3,
                 maximum=2.0,
-                value=0.9,  # Optimized for Spanish model - slower for better quality
+                value=1,  # Optimized for Spanish model - slower for better quality
                 step=0.1,
             )
             cross_fade_duration_slider = gr.Slider(
                 label="Cross-Fade Duration (Between Generated Audio Chunks)",
                 minimum=0.0,
                 maximum=1.0,
-                value=0.15,  # Optimized for Spanish model - smooth transitions
+                value=0.0,  # Optimized for Spanish model - smooth transitions
                 step=0.01,
             )
 
