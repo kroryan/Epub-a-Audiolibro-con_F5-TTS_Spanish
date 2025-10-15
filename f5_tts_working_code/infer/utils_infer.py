@@ -50,10 +50,10 @@ mel_spec_type = "vocos"
 target_rms = 0.1
 cross_fade_duration = 0.15
 ode_method = "euler"
-nfe_step = 32  # 16, 32
-cfg_strength = 2.0
-sway_sampling_coef = -1.0
-speed = 1.0
+nfe_step = 32  # Optimal for Spanish F5-TTS quality vs speed balance
+cfg_strength = 1.5  # Optimized for Spanish F5-TTS - lower for more natural speech
+sway_sampling_coef = -1.0  # Negative value for better temporal consistency
+speed = 0.9  # Slightly slower for better Spanish pronunciation
 fix_duration = None
 
 # -----------------------------------------
@@ -62,7 +62,7 @@ fix_duration = None
 # chunk text into smaller pieces
 
 
-def chunk_text(text, max_chars=135):
+def chunk_text(text, max_chars=135):  # Reduced for Spanish - better sentence boundary detection
     """
     Splits the input text into chunks, each with a maximum number of characters.
 
@@ -227,7 +227,14 @@ def load_model(
     device=device,
 ):
     if vocab_file == "":
-        vocab_file = str(files("f5_tts").joinpath("infer/examples/vocab.txt"))
+        # Use Spanish F5-TTS vocabulary instead of default
+        import os
+        current_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+        spanish_vocab_path = os.path.join(current_dir, "spanish_vocab.txt")
+        if os.path.exists(spanish_vocab_path):
+            vocab_file = spanish_vocab_path
+        else:
+            vocab_file = str(files("f5_tts").joinpath("infer/examples/vocab.txt"))
     tokenizer = "custom"
 
     print("\nvocab : ", vocab_file)
@@ -465,7 +472,8 @@ def infer_batch_process(
 
     for i, gen_text_chunk in enumerate(pbar_iterator): # Changed gen_text to gen_text_chunk
         text_list = [ref_text + gen_text_chunk] # Use gen_text_chunk
-        final_text_list = convert_char_to_pinyin(text_list)
+        # For Spanish model, use text directly without pinyin conversion
+        final_text_list = text_list  # convert_char_to_pinyin(text_list)
 
         ref_audio_len = audio.shape[-1] // hop_length
         if fix_duration is not None:

@@ -22,8 +22,12 @@ from pydub import AudioSegment
 import magic
 from mutagen.id3 import ID3, APIC, TIT2, TPE1, TALB, error
 
-from f5_tts.model import DiT
-from f5_tts.infer.utils_infer import (
+# Add local f5_tts directory to path
+import sys
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'f5_tts_working_code'))
+
+from model import DiT
+from infer.utils_infer import (
     load_vocoder,
     load_model,
     preprocess_ref_audio_text,
@@ -58,16 +62,22 @@ vocoder = load_vocoder()
 
 def load_f5tts(ckpt_path=None):
     if ckpt_path is None:
-        ckpt_path = str(cached_path("hf://SWivid/F5-TTS/F5TTS_Base/model_1200000.safetensors"))
+        ckpt_path = str(cached_path("hf://jpgallegoar/F5-Spanish/model_1200000.safetensors"))
+    
+    # Spanish F5-TTS vocabulary path
+    spanish_vocab_path = os.path.join(os.path.dirname(__file__), "spanish_vocab.txt")
+    
     model_cfg = {
         "dim": 1024,
         "depth": 22,
         "heads": 16,
         "ff_mult": 2,
         "text_dim": 512,
-        "conv_layers": 4
+        "text_mask_padding": False,
+        "conv_layers": 4,
+        "pe_attn_head": 1
     }
-    model = load_model(DiT, model_cfg, ckpt_path)
+    model = load_model(DiT, model_cfg, ckpt_path, vocab_file=spanish_vocab_path)
     model.eval()  # Ensure the model is in evaluation mode
     model = model.to(device)  # Move model to the selected device
     print(f"Model loaded on {device}.")
@@ -544,13 +554,13 @@ def basic_tts(ref_audio_input, ref_text_input, gen_file_input, cross_fade_durati
         raise gr.Error(f"An error occurred: {str(e)}")
 
 DEFAULT_REF_AUDIO_PATH = "/app/default_voice.mp3" 
-DEFAULT_REF_TEXT = "For thirty-six years I was the confidential secretary of the Roman statesman Cicero. At first this was exciting, then astonishing, then arduous, and finally extremely dangerous."
+DEFAULT_REF_TEXT = "En el escriptorium había hileras de mesas donde los secretarios se afanaban con traducciones o copiaban textos desvaídos en libros nuevos con tinta negra y fresca.     En la sala   ."
 
 
 def create_gradio_app():
     """Create and configure the Gradio application."""
     with gr.Blocks(theme=gr.themes.Ocean()) as app: # Use gr.themes.Ocean if available, else None
-        gr.Markdown("# eBook to Audiobook with F5-TTS!")
+        gr.Markdown("# eBook to Audiobook with F5-TTS (Spanish)!")
 
         ref_audio_input = gr.Audio(
             label="Upload Voice File (<15 sec) or Record with Mic Icon (Ensure Natural Phrasing, Trim Silence)",
@@ -585,14 +595,14 @@ def create_gradio_app():
                 label="Speech Speed (Adjusting Can Cause Artifacts)",
                 minimum=0.3,
                 maximum=2.0,
-                value=1.0,
+                value=0.9,  # Optimized for Spanish model - slower for better quality
                 step=0.1,
             )
             cross_fade_duration_slider = gr.Slider(
                 label="Cross-Fade Duration (Between Generated Audio Chunks)",
                 minimum=0.0,
                 maximum=1.0,
-                value=0.0,
+                value=0.15,  # Optimized for Spanish model - smooth transitions
                 step=0.01,
             )
 
@@ -634,7 +644,7 @@ def main(port, host, share, api):
     print("Starting app...")
     app.queue().launch(
         server_name="0.0.0.0",
-        server_port=port or 7860,
+        server_port=port or 7861,
         share=share,
         show_api=api,
         debug=True

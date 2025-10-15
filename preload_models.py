@@ -8,7 +8,7 @@ from f5_tts.infer.utils_infer import load_vocoder # To trigger Vocos download vi
 
 # Define the model URLs used by the main app
 VOCOS_MODEL_ID = "charactr/vocos-mel-24khz" # As seen in logs
-F5TTS_MODEL_FILE = "hf://SWivid/F5-TTS/F5TTS_Base/model_1200000.safetensors" # As seen in logs
+F5TTS_MODEL_FILE = "hf://jpgallegoar/F5-Spanish/model_1200000.safetensors" # Spanish F5-TTS model - Previous stable version
 
 # --- Preload Vocos ---
 print(f"Attempting to preload Vocos ({VOCOS_MODEL_ID})...")
