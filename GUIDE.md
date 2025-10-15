@@ -1,3 +1,82 @@
+Guía de instalación y uso (Windows, RTX 5060 Ti)
+===============================================
+
+Esta guía asume que vas a ejecutar el proyecto en Windows con una GPU NVIDIA (por ejemplo RTX 5060 Ti, 16 GB). Contiene pasos de instalación, dependencias recomendadas, configuración específica y soluciones que aplicamos para que el modelo español funcione correctamente.
+
+1) Requisitos previos
+- Git
+- Python 3.11 (se probó con 3.11.x)
+- CUDA compatible con tu versión de PyTorch (a día de hoy CUDA 12.8 para las versiones más nuevas)
+- ffmpeg (instalar y añadir al PATH)
+
+2) Entorno Python (recomendado)
+- Crear y activar un virtualenv:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+3) Instalar dependencias
+- Instalar dependencias del `requirements.txt`:
+
+```powershell
+pip install -r requirements.txt
+```
+
+- Si hay problemas con `python-magic` en Windows, instalar `python-magic-bin`:
+
+```powershell
+pip install python-magic-bin
+```
+
+- Para compatibilidad con la decodificación de audio en torchaudio, instalar `torchcodec` si es necesario:
+
+```powershell
+pip install torchcodec
+```
+
+4) PyTorch (recomendado para RTX 5060 Ti con CUDA 12.8)
+
+Instala PyTorch con la rueda adecuada. En general, usar el índice oficial PyTorch. Ejemplo (ajusta la versión si tu CUDA es diferente):
+
+```powershell
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+```
+
+5) FFmpeg
+- Instala FFmpeg y asegúrate de que `ffmpeg` esté en el PATH del sistema. Puedes usar Chocolatey o descargar binarios y añadirlos al PATH.
+
+6) Descargar el modelo y vocabulario
+- Descarga `model_1200000.safetensors` del repositorio `jpgallegoar/F5-Spanish` y colócalo en la caché de HuggingFace o en la ruta indicada por la salida cuando arranques `app.py`.
+- Descarga `vocab.txt` del mismo repositorio y guárdalo como `spanish_vocab.txt` en la raíz del proyecto.
+
+7) Cambios realizados en este fork (resumen técnico)
+- Se desactivó la conversión automática `convert_char_to_pinyin` en `f5_tts_working_code/infer/utils_infer.py` porque convertía texto español a pinyin.
+- Se añadió búsqueda automática de `spanish_vocab.txt` en la raíz del proyecto y uso por defecto cuando existe.
+- Se actualizó `app.py` para pasar explícitamente `vocab_file` y ajustar `model_cfg` con los parámetros del modelo español (dim=1024, depth=22, heads=16, ff_mult=2, text_dim=512, conv_layers=4).
+
+8) Ejecutar la aplicación
+
+```powershell
+$env:GRADIO_SERVER_PORT="7861"; python app.py
+```
+
+Abre http://0.0.0.0:7861 en un navegador local.
+
+9) Recomendaciones de uso
+- Subir un audio de referencia en español (<=15s) con buena calidad y escribir la transcripción en español.
+- Si obtienes sonidos sin sentido, revisa que el `ref_audio` y `ref_text` estén en el mismo idioma (español) y que el vocabulario `spanish_vocab.txt` esté presente.
+
+10) Problemas conocidos y soluciones rápidas
+- Si el modelo genera sonidos sin sentido, asegúrate de no tener activada la conversión a pinyin (hemos desactivado la conversión por defecto en este fork).
+- Si hay errores con torchaudio y TorchCodec, instala `torchcodec` o usa una versión compatible de torchaudio/PyTorch.
+
+11) Próximos pasos
+- Si quieres probar la versión más nueva del modelo (model_1250000), cambia `app.py` para usarla y prueba. Si hay problemas, restaura `model_1200000.safetensors`.
+
+Contacto
+- Si hay errores, copia la salida de la terminal y ábreme un issue en tu fork o escríbeme aquí con la salida.
 # Guía de Configuración: eBook to Audiobook con F5-TTS Español
 
 Esta guía explica todos los cambios realizados para configurar el proyecto con el modelo español de F5-TTS (`jpgallegoar/F5-Spanish`) y los pasos para reproducir la instalación en otros equipos.
